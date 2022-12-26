@@ -24,5 +24,6 @@ config/apple_config_files
 envs/
 main
 .idea
+.vscode
 pgdata
 vendor
