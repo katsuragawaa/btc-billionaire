@@ -5,31 +5,14 @@ services:
     container_name: api
     build:
       context: ./
-      dockerfile: docker/Dockerfile
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
     environment:
       - PORT=8080
-    depends_on:
-      - postgesql
     restart: always
     volumes:
       - ./:/app
-    networks:
-      - web_api
-
-  postgesql:
-    image: postgres:latest
-    container_name: api_postgesql
-    ports:
-      - "5432:5432"
-    restart: always
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=auth_db
-    volumes:
-      - ./pgdata:/var/lib/postgresql/data
     networks:
       - web_api
 

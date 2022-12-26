@@ -1,0 +1,27 @@
+basePath: /api/v1
+info:
+  contact:
+    email: andre.katsuragawa@gmail.com
+    name: Andre Katsuragawa
+    url: https://github.com/katsuragawaa
+  description: App that allows users to track the balance of a bitcoin wallet over
+    time
+  title: BTC Billionaire
+  version: "1.0"
+paths:
+  /ping:
+    get:
+      consumes:
+      - application/json
+      description: Ping server for health check
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+      summary: Ping app
+      tags:
+      - Health
+swagger: "2.0"
