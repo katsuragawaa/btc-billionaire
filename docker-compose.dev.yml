@@ -11,23 +11,23 @@ services:
     environment:
       - PORT=8080
     depends_on:
-      - postgesql
+      - postgresql
     restart: always
     volumes:
       - ./:/app
     networks:
       - web_api
 
-  postgesql:
+  postgresql:
     image: postgres:15-bullseye
-    container_name: api_postgesql
+    container_name: api_postgresql
     ports:
       - "5432:5432"
     restart: always
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=auth_db
+      - POSTGRES_DB=btc_db
     volumes:
       - ./pgdata:/var/lib/postgresql/data
     networks:

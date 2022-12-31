@@ -8,6 +8,8 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/jmoiron/sqlx"
+
 	"github.com/katsuragawaa/btc-billionaire/pkg/logger"
 
 	"github.com/katsuragawaa/btc-billionaire/config"
@@ -22,12 +24,14 @@ const (
 type Server struct {
 	echo   *echo.Echo
 	cfg    *config.Config
+	db     *sqlx.DB
 	logger logger.Logger
 }
 
-func NewServer(cfg *config.Config, logger logger.Logger) *Server {
+func NewServer(cfg *config.Config, db *sqlx.DB, logger logger.Logger) *Server {
 	return &Server{
 		echo:   echo.New(),
+		db:     db,
 		cfg:    cfg,
 		logger: logger,
 	}

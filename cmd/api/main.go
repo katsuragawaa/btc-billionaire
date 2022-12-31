@@ -47,7 +47,7 @@ func main() {
 		}
 	}(psqlDB)
 
-	s := server.NewServer(cfg, appLogger)
+	s := server.NewServer(cfg, psqlDB, appLogger)
 	if err = s.Run(); err != nil {
 		log.Panic(err)
 	}

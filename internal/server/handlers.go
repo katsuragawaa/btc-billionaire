@@ -5,6 +5,8 @@ import (
 
 	"github.com/katsuragawaa/btc-billionaire/docs"
 	transactionsHttp "github.com/katsuragawaa/btc-billionaire/internal/transactions/delivery/http"
+	transactionsRepository "github.com/katsuragawaa/btc-billionaire/internal/transactions/repository"
+	transactionsUseCase "github.com/katsuragawaa/btc-billionaire/internal/transactions/usecase"
 	"github.com/katsuragawaa/btc-billionaire/pkg/logger"
 	"github.com/labstack/echo/v4"
 	echoSwagger "github.com/swaggo/echo-swagger"
@@ -20,8 +22,11 @@ func (s *Server) MapHandlers(e *echo.Echo) error {
 	ping := v1.Group("/ping")
 	ping.GET("", pingHandler(s.logger))
 
+	tRepo := transactionsRepository.NewTransactionsRepository(s.db)
+	tUC := transactionsUseCase.NewTransactionsUseCase(s.cfg, tRepo, s.logger)
+
 	transactionsGroup := v1.Group("/transactions")
-	transactionsHandlers := transactionsHttp.NewTransactionsHandlers(s.cfg, s.logger)
+	transactionsHandlers := transactionsHttp.NewTransactionsHandlers(s.cfg, tUC, s.logger)
 	transactionsHttp.MapTransactionsRoutes(transactionsGroup, transactionsHandlers)
 
 	return nil

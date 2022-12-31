@@ -1,6 +1,7 @@
 package http
 
 import (
+	"context"
 	"net/http"
 
 	"github.com/katsuragawaa/btc-billionaire/config"
@@ -12,12 +13,13 @@ import (
 )
 
 type transactionsHandlers struct {
-	cfg    *config.Config
-	logger logger.Logger
+	cfg     *config.Config
+	usecase transactions.UseCase
+	logger  logger.Logger
 }
 
-func NewTransactionsHandlers(cfg *config.Config, logger logger.Logger) transactions.Handlers {
-	return &transactionsHandlers{cfg: cfg, logger: logger}
+func NewTransactionsHandlers(cfg *config.Config, usecase transactions.UseCase, logger logger.Logger) transactions.Handlers {
+	return &transactionsHandlers{cfg: cfg, usecase: usecase, logger: logger}
 }
 
 // Create
@@ -31,7 +33,7 @@ func NewTransactionsHandlers(cfg *config.Config, logger logger.Logger) transacti
 // @Router /comments [post]
 func (t *transactionsHandlers) Create() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		t.logger.Info("Transactions handler - Create")
+		ctx := context.Background()
 
 		var transaction models.Transaction
 		if err := utils.BindRequest(c, &transaction); err != nil {
@@ -39,6 +41,11 @@ func (t *transactionsHandlers) Create() echo.HandlerFunc {
 			return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 		}
 
-		return c.JSON(http.StatusCreated, transaction)
+		createdTransaction, err := t.usecase.Create(ctx, &transaction)
+		if err != nil {
+			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		}
+
+		return c.JSON(http.StatusCreated, createdTransaction)
 	}
 }
