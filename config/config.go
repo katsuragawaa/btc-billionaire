@@ -10,8 +10,9 @@ import (
 )
 
 type Config struct {
-	Server ServerConfig
-	Logger Logger
+	Server   ServerConfig
+	Logger   Logger
+	Postgres PostgresConfig
 }
 
 type ServerConfig struct {
@@ -28,6 +29,16 @@ type Logger struct {
 	DisableStacktrace bool
 	Encoding          string
 	Level             string
+}
+
+type PostgresConfig struct {
+	PostgresqlHost     string
+	PostgresqlPort     string
+	PostgresqlUser     string
+	PostgresqlPassword string
+	PostgresqlDbname   string
+	PostgresqlSSLMode  bool
+	PgDriver           string
 }
 
 // LoadConfig Load the configuration file from given path

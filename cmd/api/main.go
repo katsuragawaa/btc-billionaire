@@ -3,8 +3,12 @@ package main
 import (
 	"log"
 
+	"github.com/jmoiron/sqlx"
+
 	"github.com/katsuragawaa/btc-billionaire/config"
 	"github.com/katsuragawaa/btc-billionaire/internal/server"
+	"github.com/katsuragawaa/btc-billionaire/pkg/db/postgres"
+	"github.com/katsuragawaa/btc-billionaire/pkg/logger"
 )
 
 // @title BTC Billionaire
@@ -25,8 +29,26 @@ func main() {
 		log.Fatalf("ParseConfig: %v", err)
 	}
 
-	s := server.NewServer(cfg)
+	appLogger := logger.NewAPILogger(cfg)
+
+	appLogger.InitLogger()
+	appLogger.Infof("AppVersion: %s, LogLevel: %s, Mode: %s", cfg.Server.AppVersion, cfg.Logger.Level, cfg.Server.Env)
+
+	psqlDB, err := postgres.NewPsqlDB(cfg)
+	if err != nil {
+		appLogger.Fatalf("Postgresql init: %s", err)
+	} else {
+		appLogger.Infof("Postgres connected, Status: %#v", psqlDB.Stats())
+	}
+	defer func(psqlDB *sqlx.DB) {
+		err := psqlDB.Close()
+		if err != nil {
+			log.Fatal(err)
+		}
+	}(psqlDB)
+
+	s := server.NewServer(cfg, appLogger)
 	if err = s.Run(); err != nil {
-		log.Fatal(err)
+		log.Panic(err)
 	}
 }

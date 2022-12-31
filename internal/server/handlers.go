@@ -3,6 +3,8 @@ package server
 import (
 	"net/http"
 
+	"github.com/katsuragawaa/btc-billionaire/pkg/logger"
+
 	"github.com/katsuragawaa/btc-billionaire/docs"
 	"github.com/labstack/echo/v4"
 	echoSwagger "github.com/swaggo/echo-swagger"
@@ -16,7 +18,7 @@ func (s *Server) MapHandlers(e *echo.Echo) error {
 	v1 := e.Group("/api/v1")
 
 	ping := v1.Group("/ping")
-	ping.GET("", p())
+	ping.GET("", pingHandler(s.logger))
 
 	return nil
 }
@@ -28,8 +30,9 @@ func (s *Server) MapHandlers(e *echo.Echo) error {
 // @Produce json
 // @Success 200 {string} string "ok"
 // @Router /ping [get]
-func p() echo.HandlerFunc {
+func pingHandler(logger logger.Logger) echo.HandlerFunc {
 	return func(c echo.Context) error {
+		logger.Info("Health check ping")
 		return c.JSON(http.StatusOK, "pong")
 	}
 }

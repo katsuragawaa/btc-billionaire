@@ -2,12 +2,13 @@ package server
 
 import (
 	"context"
-	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/katsuragawaa/btc-billionaire/pkg/logger"
 
 	"github.com/katsuragawaa/btc-billionaire/config"
 	"github.com/labstack/echo/v4"
@@ -19,14 +20,16 @@ const (
 )
 
 type Server struct {
-	echo *echo.Echo
-	cfg  *config.Config
+	echo   *echo.Echo
+	cfg    *config.Config
+	logger logger.Logger
 }
 
-func NewServer(cfg *config.Config) *Server {
+func NewServer(cfg *config.Config, logger logger.Logger) *Server {
 	return &Server{
-		echo: echo.New(),
-		cfg:  cfg,
+		echo:   echo.New(),
+		cfg:    cfg,
+		logger: logger,
 	}
 }
 
@@ -39,9 +42,9 @@ func (s *Server) Run() error {
 	}
 
 	go func() {
-		log.Printf("Server is listening on PORT: %s", s.cfg.Server.Port)
+		s.logger.Infof("Server is listening on PORT: %s", s.cfg.Server.Port)
 		if err := s.echo.StartServer(server); err != nil {
-			log.Fatal("Error starting TLS Server: ", err)
+			s.logger.Fatal("Error starting TLS Server: ", err)
 		}
 	}()
 
@@ -57,6 +60,6 @@ func (s *Server) Run() error {
 	ctx, shutdown := context.WithTimeout(context.Background(), ctxTimeout*time.Second)
 	defer shutdown()
 
-	log.Println("Server Exited Properly")
+	s.logger.Infof("Server Exited Properly")
 	return s.echo.Server.Shutdown(ctx)
 }
