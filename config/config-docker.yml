@@ -4,3 +4,10 @@ server:
   Env: Development
   ReadTimeout: 10
   WriteTimeout: 10
+
+logger:
+  Development: true
+  DisableCaller: false
+  DisableStacktrace: false
+  Encoding: console
+  Level: info

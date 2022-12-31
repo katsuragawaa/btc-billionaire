@@ -11,6 +11,7 @@ import (
 
 type Config struct {
 	Server ServerConfig
+	Logger Logger
 }
 
 type ServerConfig struct {
@@ -19,6 +20,14 @@ type ServerConfig struct {
 	Env          string
 	ReadTimeout  time.Duration
 	WriteTimeout time.Duration
+}
+
+type Logger struct {
+	Development       bool
+	DisableCaller     bool
+	DisableStacktrace bool
+	Encoding          string
+	Level             string
 }
 
 // LoadConfig Load the configuration file from given path
@@ -31,7 +40,8 @@ func LoadConfig() (*viper.Viper, error) {
 	v.AddConfigPath(".")
 	v.AutomaticEnv()
 	if err := v.ReadInConfig(); err != nil {
-		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
+		var notFoundError viper.ConfigFileNotFoundError
+		if ok := errors.Is(err, notFoundError); ok {
 			return nil, errors.New("config file not found")
 		}
 		return nil, err
