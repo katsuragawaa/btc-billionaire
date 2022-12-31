@@ -1,0 +1,13 @@
+package utils
+
+import (
+	"github.com/labstack/echo/v4"
+)
+
+func BindRequest(ctx echo.Context, request interface{}) error {
+	if err := ctx.Bind(request); err != nil {
+		return err
+	}
+
+	return validate.StructCtx(ctx.Request().Context(), request)
+}

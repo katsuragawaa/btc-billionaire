@@ -1,4 +1,17 @@
 basePath: /api/v1
+definitions:
+  models.Transaction:
+    properties:
+      amount:
+        type: number
+      datetime:
+        type: string
+      id:
+        type: string
+    required:
+    - amount
+    - datetime
+    type: object
 info:
   contact:
     email: andre.katsuragawa@gmail.com
@@ -9,6 +22,23 @@ info:
   title: BTC Billionaire
   version: "1.0"
 paths:
+  /comments:
+    post:
+      consumes:
+      - application/json
+      description: Create new bitcoin transaction
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Transaction'
+        "400":
+          description: Bad Request
+      summary: Create new transaction
+      tags:
+      - Transaction
   /ping:
     get:
       consumes:
