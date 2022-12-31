@@ -4,12 +4,13 @@ import (
 	"context"
 	"net/http"
 
+	"github.com/labstack/echo/v4"
+
 	"github.com/katsuragawaa/btc-billionaire/config"
 	"github.com/katsuragawaa/btc-billionaire/internal/models"
 	"github.com/katsuragawaa/btc-billionaire/internal/transactions"
 	"github.com/katsuragawaa/btc-billionaire/pkg/logger"
 	"github.com/katsuragawaa/btc-billionaire/pkg/utils"
-	"github.com/labstack/echo/v4"
 )
 
 type transactionsHandlers struct {

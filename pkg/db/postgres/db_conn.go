@@ -6,6 +6,7 @@ import (
 
 	_ "github.com/jackc/pgx/stdlib" // pgx driver
 	"github.com/jmoiron/sqlx"
+
 	"github.com/katsuragawaa/btc-billionaire/config"
 )
 

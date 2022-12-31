@@ -3,13 +3,14 @@ package server
 import (
 	"net/http"
 
+	"github.com/labstack/echo/v4"
+	echoSwagger "github.com/swaggo/echo-swagger"
+
 	"github.com/katsuragawaa/btc-billionaire/docs"
 	transactionsHttp "github.com/katsuragawaa/btc-billionaire/internal/transactions/delivery/http"
 	transactionsRepository "github.com/katsuragawaa/btc-billionaire/internal/transactions/repository"
 	transactionsUseCase "github.com/katsuragawaa/btc-billionaire/internal/transactions/usecase"
 	"github.com/katsuragawaa/btc-billionaire/pkg/logger"
-	"github.com/labstack/echo/v4"
-	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
 // MapHandlers Map the Server handlers

@@ -9,11 +9,10 @@ import (
 	"time"
 
 	"github.com/jmoiron/sqlx"
-
-	"github.com/katsuragawaa/btc-billionaire/pkg/logger"
+	"github.com/labstack/echo/v4"
 
 	"github.com/katsuragawaa/btc-billionaire/config"
-	"github.com/labstack/echo/v4"
+	"github.com/katsuragawaa/btc-billionaire/pkg/logger"
 )
 
 const (

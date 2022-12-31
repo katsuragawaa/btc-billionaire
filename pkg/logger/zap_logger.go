@@ -3,9 +3,10 @@ package logger
 import (
 	"os"
 
-	"github.com/katsuragawaa/btc-billionaire/config"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+
+	"github.com/katsuragawaa/btc-billionaire/config"
 )
 
 // Logger methods interface

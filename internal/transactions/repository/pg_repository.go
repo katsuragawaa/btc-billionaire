@@ -3,9 +3,9 @@ package repository
 import (
 	"context"
 
+	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
 
-	"github.com/jmoiron/sqlx"
 	"github.com/katsuragawaa/btc-billionaire/internal/models"
 	"github.com/katsuragawaa/btc-billionaire/internal/transactions"
 )

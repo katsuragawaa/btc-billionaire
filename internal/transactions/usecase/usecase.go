@@ -3,10 +3,9 @@ package usecase
 import (
 	"context"
 
-	"github.com/katsuragawaa/btc-billionaire/internal/transactions"
-
 	"github.com/katsuragawaa/btc-billionaire/config"
 	"github.com/katsuragawaa/btc-billionaire/internal/models"
+	"github.com/katsuragawaa/btc-billionaire/internal/transactions"
 	"github.com/katsuragawaa/btc-billionaire/pkg/logger"
 )
 
