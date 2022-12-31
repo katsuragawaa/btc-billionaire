@@ -35,13 +35,13 @@ func (t *transactionsHandlers) Create() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		ctx := context.Background()
 
-		var transaction models.Transaction
-		if err := utils.BindRequest(c, &transaction); err != nil {
+		transaction := &models.Transaction{}
+		if err := utils.BindRequest(c, transaction); err != nil {
 			t.logger.Error(err)
 			return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 		}
 
-		createdTransaction, err := t.usecase.Create(ctx, &transaction)
+		createdTransaction, err := t.usecase.Create(ctx, transaction)
 		if err != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 		}
