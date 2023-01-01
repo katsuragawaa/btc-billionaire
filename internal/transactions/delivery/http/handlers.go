@@ -27,15 +27,17 @@ func NewTransactionsHandlers(cfg *config.Config, usecase transactions.UseCase, l
 }
 
 // Create
-// @Summary Create new transaction
-// @Description Create new bitcoin transaction
-// @Tags Transaction
-// @Accept  json
-// @Produce  json
-// @Success 201 {object} models.Transaction
-// @Failure 400
-// @Failure 500
-// @Router /transactions [post]
+//
+//	@Summary		Create new transaction
+//	@Description	Create new bitcoin transaction
+//	@Tags			Transaction
+//	@Accept			json
+//	@Produce		json
+//	@Param			transaction	body		models.TransactionBase	true	"Send new transaction"
+//	@Success		201			{object}	models.Transaction
+//	@Failure		400
+//	@Failure		500
+//	@Router			/transactions [post]
 func (t *transactionsHandlers) Create() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		ctx := context.Background()
@@ -56,27 +58,34 @@ func (t *transactionsHandlers) Create() echo.HandlerFunc {
 }
 
 // GetPerHours
-// @Summary Get transactions within a time interval
-// @Description Get bitcoin transactions within a time interval
-// @Tags Transaction
-// @Accept json
-// @Produce json
-// @Success 200 {object} models.TransactionsList
-// @Failure 500
-// @Router /transactions [get]
+//
+//	@Summary		Get transactions within a time interval
+//	@Description	Get bitcoin transactions within a time interval
+//	@Tags			Transaction
+//	@Accept			json
+//	@Produce		json
+//	@Param			startDatetime	query		string	true	"interval start datetime"
+//	@Param			endDatetime		query		string	true	"interval end datetime"
+//	@Success		200				{object}	models.TransactionsList
+//	@Failure		400
+//	@Failure		500
+//	@Router			/transactions [get]
 func (t *transactionsHandlers) GetPerHours() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		ctx := context.Background()
-		start := c.QueryParam("start")
-		end := c.QueryParam("end")
+		start := c.QueryParam("startDatetime")
+		end := c.QueryParam("endDatetime")
+		if start == "" || end == "" {
+			return echo.NewHTTPError(http.StatusBadRequest, "please specify a start and an end datetime")
+		}
 
 		startTime, err := time.Parse(layout, start)
 		if err != nil {
-			return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+			return echo.NewHTTPError(http.StatusBadRequest, "invalid start datetime, please format as 2006-01-02T15:04:05-07:00")
 		}
 		endTime, err := time.Parse(layout, end)
 		if err != nil {
-			return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+			return echo.NewHTTPError(http.StatusBadRequest, "invalid end datetime, please format as 2006-01-02T15:04:05-07:00")
 		}
 
 		transactionsList, err := t.usecase.GetPerHours(ctx, startTime, endTime)
@@ -89,14 +98,15 @@ func (t *transactionsHandlers) GetPerHours() echo.HandlerFunc {
 }
 
 // GetBalance
-// @Summary Get wallet total balance
-// @Description Get total bitcoin balance in the wallet
-// @Tags Transaction
-// @Accept json
-// @Produce json
-// @Success 200 {object} models.TransactionsBalance
-// @Failure 500
-// @Router /transactions [get]
+//
+//	@Summary		Get wallet total balance
+//	@Description	Get total bitcoin balance in the wallet
+//	@Tags			Transaction
+//	@Accept			json
+//	@Produce		json
+//	@Success		200	{object}	models.TransactionsBalance
+//	@Failure		500
+//	@Router			/transactions/balance [get]
 func (t *transactionsHandlers) GetBalance() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		ctx := context.Background()

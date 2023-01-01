@@ -33,13 +33,13 @@ func (s *Server) MapHandlers(e *echo.Echo) error {
 	return nil
 }
 
-// @Tags Health
-// @Summary Ping app
-// @Description Ping server for health check
-// @Accept json
-// @Produce json
-// @Success 200 {string} string "ok"
-// @Router /ping [get]
+// @Tags			Health
+// @Summary		Ping app
+// @Description	Ping server for health check
+// @Accept			json
+// @Produce		json
+// @Success		200	{string}	string	"ok"
+// @Router			/ping [get]
 func pingHandler(logger logger.Logger) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		logger.Info("Health check ping")

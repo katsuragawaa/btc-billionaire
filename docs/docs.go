@@ -56,12 +56,31 @@ const docTemplate = `{
                     "Transaction"
                 ],
                 "summary": "Get transactions within a time interval",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "interval start datetime",
+                        "name": "startDatetime",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "interval end datetime",
+                        "name": "endDatetime",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/models.TransactionsList"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request"
                     },
                     "500": {
                         "description": "Internal Server Error"
@@ -80,6 +99,17 @@ const docTemplate = `{
                     "Transaction"
                 ],
                 "summary": "Create new transaction",
+                "parameters": [
+                    {
+                        "description": "Send new transaction",
+                        "name": "transaction",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.TransactionBase"
+                        }
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "Created",
@@ -89,6 +119,32 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/transactions/balance": {
+            "get": {
+                "description": "Get total bitcoin balance in the wallet",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Get wallet total balance",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.TransactionsBalance"
+                        }
                     },
                     "500": {
                         "description": "Internal Server Error"
@@ -130,6 +186,14 @@ const docTemplate = `{
                 },
                 "datetime": {
                     "type": "string"
+                }
+            }
+        },
+        "models.TransactionsBalance": {
+            "type": "object",
+            "properties": {
+                "total_amount": {
+                    "type": "number"
                 }
             }
         },

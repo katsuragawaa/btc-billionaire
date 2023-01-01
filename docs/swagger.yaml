@@ -23,6 +23,11 @@ definitions:
       datetime:
         type: string
     type: object
+  models.TransactionsBalance:
+    properties:
+      total_amount:
+        type: number
+    type: object
   models.TransactionsList:
     properties:
       transactions:
@@ -60,6 +65,17 @@ paths:
       consumes:
       - application/json
       description: Get bitcoin transactions within a time interval
+      parameters:
+      - description: interval start datetime
+        in: query
+        name: startDatetime
+        required: true
+        type: string
+      - description: interval end datetime
+        in: query
+        name: endDatetime
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -67,6 +83,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.TransactionsList'
+        "400":
+          description: Bad Request
         "500":
           description: Internal Server Error
       summary: Get transactions within a time interval
@@ -76,6 +94,13 @@ paths:
       consumes:
       - application/json
       description: Create new bitcoin transaction
+      parameters:
+      - description: Send new transaction
+        in: body
+        name: transaction
+        required: true
+        schema:
+          $ref: '#/definitions/models.TransactionBase'
       produces:
       - application/json
       responses:
@@ -88,6 +113,23 @@ paths:
         "500":
           description: Internal Server Error
       summary: Create new transaction
+      tags:
+      - Transaction
+  /transactions/balance:
+    get:
+      consumes:
+      - application/json
+      description: Get total bitcoin balance in the wallet
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.TransactionsBalance'
+        "500":
+          description: Internal Server Error
+      summary: Get wallet total balance
       tags:
       - Transaction
 swagger: "2.0"
