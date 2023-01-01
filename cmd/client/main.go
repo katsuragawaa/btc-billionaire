@@ -23,11 +23,14 @@ func main() {
 		}
 		dt := time.Now().In(loc).Format("2006-01-02T15:04:05-07:00")
 
+		amount := getRandomAmount()
+		log.Printf("sending %f bitcoins from %s", amount, loc.String())
+
 		t := models.Transaction{}
 		res, err := client.R().SetBody(
 			map[string]interface{}{
 				"datetime": dt,
-				"amount":   getRandomAmount(),
+				"amount":   amount,
 			},
 		).SetResult(&t).Post("http://localhost:8080/api/v1/transactions")
 		if err != nil {
@@ -58,8 +61,8 @@ func pickRandomLocal() string {
 }
 
 func getRandomAmount() float64 {
-	var min = 0.01
-	var max float64 = 10
+	min := 0.0001
+	max := 0.1
 
 	return min + rand.Float64()*(max-min)
 }
