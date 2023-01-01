@@ -84,6 +84,28 @@ func (t *transactionsHandlers) GetPerHours() echo.HandlerFunc {
 			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 		}
 
-		return c.JSON(http.StatusCreated, transactionsList)
+		return c.JSON(http.StatusOK, transactionsList)
+	}
+}
+
+// GetBalance
+// @Summary Get wallet total balance
+// @Description Get total bitcoin balance in the wallet
+// @Tags Transaction
+// @Accept json
+// @Produce json
+// @Success 200 {object} models.TransactionsBalance
+// @Failure 500
+// @Router /transactions [get]
+func (t *transactionsHandlers) GetBalance() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		ctx := context.Background()
+
+		balance, err := t.usecase.GetBalance(ctx)
+		if err != nil {
+			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		}
+
+		return c.JSON(http.StatusOK, balance)
 	}
 }

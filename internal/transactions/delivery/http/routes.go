@@ -9,4 +9,5 @@ import (
 func MapTransactionsRoutes(commGroup *echo.Group, h transactions.Handlers) {
 	commGroup.POST("", h.Create())
 	commGroup.GET("", h.GetPerHours())
+	commGroup.GET("/balance", h.GetBalance())
 }

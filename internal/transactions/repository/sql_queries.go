@@ -10,4 +10,6 @@ const (
         FROM transactions
         WHERE datetime < $1
         GROUP BY date_trunc('hour', datetime)`
+
+	getBalance = `SELECT SUM(amount) AS total_amount FROM transactions`
 )

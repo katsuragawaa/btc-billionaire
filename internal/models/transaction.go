@@ -18,6 +18,11 @@ type TransactionBase struct {
 	Amount   float64   `json:"amount" db:"amount"`
 	Datetime time.Time `json:"datetime" db:"datetime"`
 }
+
 type TransactionsList struct {
 	Transactions []*TransactionBase `json:"transactions"`
+}
+
+type TransactionsBalance struct {
+	Total float64 `json:"total_amount" db:"total_amount"`
 }

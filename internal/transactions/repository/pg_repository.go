@@ -61,3 +61,12 @@ func (r *transactionsRepo) GetPerHours(ctx context.Context, start time.Time, end
 
 	return &models.TransactionsList{Transactions: transactionsList}, nil
 }
+
+func (r *transactionsRepo) GetBalance(ctx context.Context) (*models.TransactionsBalance, error) {
+	t := &models.TransactionsBalance{}
+	if err := r.db.QueryRowxContext(ctx, getBalance).StructScan(t); err != nil {
+		return nil, errors.Wrap(err, "transactionsRepo.GetBalance.StructScan")
+	}
+
+	return t, nil
+}

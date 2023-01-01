@@ -31,3 +31,7 @@ func (u *transactionsUC) Create(ctx context.Context, transaction *models.Transac
 func (u *transactionsUC) GetPerHours(ctx context.Context, start time.Time, end time.Time) (*models.TransactionsList, error) {
 	return u.repo.GetPerHours(ctx, start, end)
 }
+
+func (u *transactionsUC) GetBalance(ctx context.Context) (*models.TransactionsBalance, error) {
+	return u.repo.GetBalance(ctx)
+}
