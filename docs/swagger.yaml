@@ -4,13 +4,31 @@ definitions:
     properties:
       amount:
         type: number
+      created_at:
+        type: string
       datetime:
         type: string
       id:
         type: string
+      updated_at:
+        type: string
     required:
     - amount
     - datetime
+    type: object
+  models.TransactionBase:
+    properties:
+      amount:
+        type: number
+      datetime:
+        type: string
+    type: object
+  models.TransactionsList:
+    properties:
+      transactions:
+        items:
+          $ref: '#/definitions/models.TransactionBase'
+        type: array
     type: object
 info:
   contact:
@@ -22,23 +40,6 @@ info:
   title: BTC Billionaire
   version: "1.0"
 paths:
-  /comments:
-    post:
-      consumes:
-      - application/json
-      description: Create new bitcoin transaction
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            $ref: '#/definitions/models.Transaction'
-        "400":
-          description: Bad Request
-      summary: Create new transaction
-      tags:
-      - Transaction
   /ping:
     get:
       consumes:
@@ -54,4 +55,39 @@ paths:
       summary: Ping app
       tags:
       - Health
+  /transactions:
+    get:
+      consumes:
+      - application/json
+      description: Get bitcoin transactions within a time interval
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.TransactionsList'
+        "500":
+          description: Internal Server Error
+      summary: Get transactions within a time interval
+      tags:
+      - Transaction
+    post:
+      consumes:
+      - application/json
+      description: Create new bitcoin transaction
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Transaction'
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Create new transaction
+      tags:
+      - Transaction
 swagger: "2.0"

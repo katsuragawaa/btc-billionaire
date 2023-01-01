@@ -35,7 +35,7 @@ func NewTransactionsHandlers(cfg *config.Config, usecase transactions.UseCase, l
 // @Success 201 {object} models.Transaction
 // @Failure 400
 // @Failure 500
-// @Router /comments [post]
+// @Router /transactions [post]
 func (t *transactionsHandlers) Create() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		ctx := context.Background()
@@ -63,7 +63,7 @@ func (t *transactionsHandlers) Create() echo.HandlerFunc {
 // @Produce json
 // @Success 200 {object} models.TransactionsList
 // @Failure 500
-// @Router /comments [get]
+// @Router /transactions [get]
 func (t *transactionsHandlers) GetPerHours() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		ctx := context.Background()
