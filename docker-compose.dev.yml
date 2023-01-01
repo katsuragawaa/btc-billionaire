@@ -10,6 +10,7 @@ services:
       - "8080:8080"
     environment:
       - PORT=8080
+      - TZ=UTC
     depends_on:
       - postgresql
     restart: always
