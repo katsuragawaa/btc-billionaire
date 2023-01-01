@@ -1,8 +1,8 @@
-DROP TABLE IF EXISTS transaction CASCADE;
+DROP TABLE IF EXISTS transactions CASCADE;
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE TABLE transaction
+CREATE TABLE transactions
 (
     id         UUID PRIMARY KEY                  DEFAULT uuid_generate_v4(),
     amount     DOUBLE PRECISION         NOT NULL,
@@ -10,3 +10,7 @@ CREATE TABLE transaction
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE          DEFAULT CURRENT_TIMESTAMP
 );
+
+-- mock the first 1000 BTC
+INSERT INTO transactions (amount, datetime)
+VALUES (1000, '2019-10-05T13:00:00+00:00')
