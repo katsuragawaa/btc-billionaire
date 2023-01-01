@@ -4,6 +4,8 @@ import (
 	"time"
 
 	"github.com/gofrs/uuid"
+
+	"github.com/katsuragawaa/btc-billionaire/pkg/utils"
 )
 
 type Transaction struct {
@@ -15,8 +17,8 @@ type Transaction struct {
 }
 
 type TransactionBase struct {
-	Amount   float64   `json:"amount" db:"amount"`
-	Datetime time.Time `json:"datetime" db:"datetime"`
+	Amount   float64        `json:"amount" db:"amount"`
+	Datetime utils.JSONTime `json:"datetime" db:"datetime"`
 }
 
 type TransactionsList struct {

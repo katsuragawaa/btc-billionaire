@@ -14,8 +14,6 @@ import (
 	"github.com/katsuragawaa/btc-billionaire/pkg/utils"
 )
 
-const layout = "2006-01-02T15:04:05-07:00"
-
 type transactionsHandlers struct {
 	cfg     *config.Config
 	usecase transactions.UseCase
@@ -79,11 +77,11 @@ func (t *transactionsHandlers) GetPerHours() echo.HandlerFunc {
 			return echo.NewHTTPError(http.StatusBadRequest, "please specify a start and an end datetime")
 		}
 
-		startTime, err := time.Parse(layout, start)
+		startTime, err := time.Parse(utils.TimeLayout, start)
 		if err != nil {
 			return echo.NewHTTPError(http.StatusBadRequest, "invalid start datetime, please format as 2006-01-02T15:04:05-07:00")
 		}
-		endTime, err := time.Parse(layout, end)
+		endTime, err := time.Parse(utils.TimeLayout, end)
 		if err != nil {
 			return echo.NewHTTPError(http.StatusBadRequest, "invalid end datetime, please format as 2006-01-02T15:04:05-07:00")
 		}

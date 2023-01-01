@@ -9,6 +9,7 @@ import (
 
 	"github.com/katsuragawaa/btc-billionaire/internal/models"
 	"github.com/katsuragawaa/btc-billionaire/internal/transactions"
+	"github.com/katsuragawaa/btc-billionaire/pkg/utils"
 )
 
 type transactionsRepo struct {
@@ -43,7 +44,7 @@ func (r *transactionsRepo) GetPerHours(ctx context.Context, start time.Time, end
 	acc := 0.0
 	transactionsList := make([]*models.TransactionBase, 0)
 	for rows.Next() {
-		transaction := &models.TransactionBase{}
+		transaction := &models.Transaction{}
 		if err = rows.StructScan(transaction); err != nil {
 			return nil, errors.Wrap(err, "transactionsRepo.GetPerHours.StructScan")
 		}
@@ -52,7 +53,10 @@ func (r *transactionsRepo) GetPerHours(ctx context.Context, start time.Time, end
 		transaction.Amount = acc
 
 		if start.Before(transaction.Datetime) {
-			transactionsList = append(transactionsList, transaction)
+			transactionsList = append(
+				transactionsList,
+				&models.TransactionBase{Amount: transaction.Amount, Datetime: utils.JSONTime{Time: transaction.Datetime}},
+			)
 		}
 	}
 	if err = rows.Err(); err != nil {
