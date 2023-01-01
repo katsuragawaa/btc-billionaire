@@ -13,3 +13,11 @@ type Transaction struct {
 	CreatedAt time.Time `json:"created_at" db:"created_at"`
 	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
 }
+
+type TransactionBase struct {
+	Amount   float64   `json:"amount" db:"amount"`
+	Datetime time.Time `json:"datetime" db:"datetime"`
+}
+type TransactionsList struct {
+	Transactions []*TransactionBase `json:"transactions"`
+}
