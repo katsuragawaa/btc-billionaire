@@ -3,7 +3,6 @@ package http
 import (
 	"context"
 	"net/http"
-	"time"
 
 	"github.com/labstack/echo/v4"
 
@@ -77,11 +76,11 @@ func (t *transactionsHandlers) GetPerHours() echo.HandlerFunc {
 			return echo.NewHTTPError(http.StatusBadRequest, "please specify a start and an end datetime")
 		}
 
-		startTime, err := time.Parse(utils.TimeLayout, start)
+		startTime, err := utils.ParseTime(start)
 		if err != nil {
 			return echo.NewHTTPError(http.StatusBadRequest, "invalid start datetime, please format as 2006-01-02T15:04:05-07:00")
 		}
-		endTime, err := time.Parse(utils.TimeLayout, end)
+		endTime, err := utils.ParseTime(end)
 		if err != nil {
 			return echo.NewHTTPError(http.StatusBadRequest, "invalid end datetime, please format as 2006-01-02T15:04:05-07:00")
 		}
