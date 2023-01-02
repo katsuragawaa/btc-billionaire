@@ -3,7 +3,7 @@ package models
 import (
 	"time"
 
-	"github.com/gofrs/uuid"
+	"github.com/google/uuid"
 
 	"github.com/katsuragawaa/btc-billionaire/pkg/utils"
 )

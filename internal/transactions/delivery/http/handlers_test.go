@@ -8,10 +8,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/katsuragawaa/btc-billionaire/pkg/utils"
-
-	"github.com/gofrs/uuid"
 	"github.com/golang/mock/gomock"
+	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/require"
 
@@ -19,6 +17,7 @@ import (
 	mock_transactions "github.com/katsuragawaa/btc-billionaire/internal/transactions/mock"
 	"github.com/katsuragawaa/btc-billionaire/pkg/converter"
 	"github.com/katsuragawaa/btc-billionaire/pkg/logger"
+	"github.com/katsuragawaa/btc-billionaire/pkg/utils"
 )
 
 const baseURL = "/api/v1/transactions"
@@ -53,7 +52,7 @@ func Test_transactionsHandlers_Create(t *testing.T) {
 
 	handlerFunc := tHandlers.Create()
 
-	id, _ := uuid.NewV4()
+	id := uuid.New()
 	now := time.Now()
 
 	mockCreatedTransaction := &models.Transaction{
