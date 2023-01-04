@@ -6,8 +6,8 @@ import (
 	"github.com/katsuragawaa/btc-billionaire/internal/transactions"
 )
 
-func MapTransactionsRoutes(commGroup *echo.Group, h transactions.Handlers) {
-	commGroup.POST("", h.Create())
-	commGroup.GET("", h.GetPerHours())
-	commGroup.GET("/balance", h.GetBalance())
+func MapTransactionsRoutes(transactionsGroup *echo.Group, h transactions.Handlers) {
+	transactionsGroup.POST("", h.Create())
+	transactionsGroup.GET("", h.GetPerHours())
+	transactionsGroup.GET("/balance", h.GetBalance())
 }
